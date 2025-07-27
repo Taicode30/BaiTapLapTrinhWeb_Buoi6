@@ -49,25 +49,37 @@ export default function Home() {
     }
   }
 
+  const editTask = (id: number, newTitle: string) => {
+    setTask(tasks.map(task => task.id === id ? { ...task, title: newTitle } : task));
+  };
+
+  const deleteTask = (id: number) => {
+    setTask(tasks.filter(task => task.id !== id));
+  };
+
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <h2 className="text-xl font-bold w-full text-center">TODO LIST</h2>
-        <div className="flex items-center">
+    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen bg-gray-900 text-white p-8 pb-20 gap-16 sm:p-20">
+      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start w-full max-w-xl">
+        <h2 className="text-3xl font-bold w-full text-center">📝 TODO LIST</h2>
+        <div className="flex items-center w-full gap-2">
           <input
             type="text"
+            value={newTask}
             placeholder="Enter your task here"
-            className="border border-white p-2 bg-transparent text-white"
-            onChange={(e) => setNewTask(e.target.value)}>
-          </input>
+            className="flex-1 border border-white p-2 rounded bg-transparent text-white focus:outline-none"
+            onChange={(e) => setNewTask(e.target.value)}
+          />
           <button
-          className="font-bold border border-white bg-white text-black p-2"
-          onClick={addTask}>
+            className="font-bold border border-white bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition"
+            onClick={addTask}
+          >
             Add
           </button>
         </div>
-        <TodoList tasks = { tasks } ToggleTask = { ToggleTask } /> 
+        <TodoList tasks={tasks} ToggleTask={ToggleTask} editTask={editTask} deleteTask={deleteTask} />
       </main>
     </div>
   );
+
 }
